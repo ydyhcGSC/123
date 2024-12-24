@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>左右滑动图片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f7f7f7;
+        }
+
+        .slider {
+            width: 100%;
+            overflow: hidden; /* 隐藏超出容器的部分 */
+            position: relative;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease; /* 图片切换过渡效果 */
+        }
+
+        .slider-item {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .slider img {
+            width: 100%;
+            height: auto;
+        }
+
+        .controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .control-left, .control-right {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="slider-wrapper" id="sliderWrapper">
+            <!-- 三张图片 -->
+            <div class="slider-item"><img src="https://via.placeholder.com/600x300?text=Image+1" alt="Image 1"></div>
+            <div class="slider-item"><img src="https://via.placeholder.com/600x300?text=Image+2" alt="Image 2"></div>
+            <div class="slider-item"><img src="https://via.placeholder.com/600x300?text=Image+3" alt="Image 3"></div>
+        </div>
+        <!-- 左右箭头按钮 -->
+        <div class="controls">
+            <span class="control-left" id="prevBtn">←</span>
+            <span class="control-right" id="nextBtn">→</span>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const sliderWrapper = document.getElementById('sliderWrapper');
+        const sliderItems = document.querySelectorAll('.slider-item');
+        const totalItems = sliderItems.length;
+
+        // 更新滑动显示
+        const updateSlider = () => {
+            const offset = -currentIndex * 100; // 每次滑动一张图片
+            sliderWrapper.style.transform = `translateX(${offset}%)`;
+        };
+
+        // 点击左箭头
+        document.getElementById('prevBtn').onclick = () => {
+            currentIndex = (currentIndex === 0) ? totalItems - 1 : currentIndex - 1;
+            updateSlider();
+        };
